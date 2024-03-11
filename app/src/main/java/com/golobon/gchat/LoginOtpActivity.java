@@ -106,19 +106,19 @@ public class LoginOtpActivity extends AppCompatActivity {
         setInProgress(true);
         mAuth.signInWithCredential(phoneAuthCredential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    setInProgress(false);
-                    Intent intent = new Intent(LoginOtpActivity.this, LoginUserNameActivity.class);
-                    intent.putExtra("phone", phoneNumber);
-                    startActivity(intent);
-                } else {
-                    AndroidUtil.showToast(getApplicationContext(), "Авторизация неудачна");
-                    setInProgress(false);
-                }
-            }
-        });
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            LoginOtpActivity.this.setInProgress(false);
+                            Intent intent = new Intent(LoginOtpActivity.this, LoginUserNameActivity.class);
+                            intent.putExtra("phone", phoneNumber);
+                            LoginOtpActivity.this.startActivity(intent);
+                        } else {
+                            AndroidUtil.showToast(LoginOtpActivity.this.getApplicationContext(), "Авторизация неудачна");
+                            LoginOtpActivity.this.setInProgress(false);
+                        }
+                    }
+                });
     }
 
     void setInProgress(boolean inProgress) {
