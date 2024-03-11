@@ -146,7 +146,7 @@ public class LoginOtpActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             tvResendOtp.setEnabled(true);
-                            tvResendOtp.setText("Нажмите для запроса кода");
+                            tvResendOtp.setText("Повторно запросить код (жмите сюда)");
                         }
                     });
                 }
