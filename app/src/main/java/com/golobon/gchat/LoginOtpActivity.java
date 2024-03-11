@@ -3,6 +3,7 @@ package com.golobon.gchat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,17 +12,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.golobon.gchat.utils.AndroidUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class LoginOtpActivity extends AppCompatActivity {
     String phoneNumber;
-    Long timeOutSeconds = 60L;
+    Long timeOutSeconds = 30L;
     String veryficationCode;
     PhoneAuthProvider.ForceResendingToken resendingToken;
 
@@ -44,9 +50,20 @@ public class LoginOtpActivity extends AppCompatActivity {
 
         phoneNumber = getIntent().getExtras().getString("phone");
 
+        btnNext.setOnClickListener(v -> {
+            String enteredOtp = etOtp.getText().toString();
+            PhoneAuthCredential credential =
+                    PhoneAuthProvider.getCredential(veryficationCode, enteredOtp);
+            signIn(credential);
+            setInProgress(true);
+        });
+
+        tvResendOtp.setOnClickListener(v -> sendOtp(phoneNumber, true));
+
         sendOtp(phoneNumber, false);
     }
     void sendOtp(String phoneNumber, boolean isResend) {
+        startResendTimer();
         setInProgress(true);
         PhoneAuthOptions.Builder builder =
                 PhoneAuthOptions.newBuilder(mAuth)
@@ -63,7 +80,7 @@ public class LoginOtpActivity extends AppCompatActivity {
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
                                 AndroidUtil.showToast(getApplicationContext(),
-                                        "Не удолдась запросить код");
+                                        "Не удалось запросить код");
                                 setInProgress(false);
                             }
 
@@ -86,7 +103,22 @@ public class LoginOtpActivity extends AppCompatActivity {
 
     void signIn(PhoneAuthCredential phoneAuthCredential) {
         //Login and go to nest activity
-
+        setInProgress(true);
+        mAuth.signInWithCredential(phoneAuthCredential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    setInProgress(false);
+                    Intent intent = new Intent(LoginOtpActivity.this, LoginUserNameActivity.class);
+                    intent.putExtra("phone", phoneNumber);
+                    startActivity(intent);
+                } else {
+                    AndroidUtil.showToast(getApplicationContext(), "Авторизация неудачна");
+                    setInProgress(false);
+                }
+            }
+        });
     }
 
     void setInProgress(boolean inProgress) {
@@ -98,5 +130,27 @@ public class LoginOtpActivity extends AppCompatActivity {
             btnNext.setVisibility(View.VISIBLE);
         }
     }
-
+    void startResendTimer() {
+        tvResendOtp.setEnabled(false);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                timeOutSeconds--;
+                tvResendOtp.setText("Повторно запросить код можно через: " +
+                        timeOutSeconds + " сек");
+                if (timeOutSeconds <= 0) {
+                    timeOutSeconds = 30L;
+                    timer.cancel();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tvResendOtp.setEnabled(true);
+                            tvResendOtp.setText("Нажмите для запроса кода");
+                        }
+                    });
+                }
+            }
+        }, 0, 1000);
+    }
 }
