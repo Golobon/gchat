@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.golobon.gchat.utils.FireBaseUtil;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -15,25 +17,23 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
-        Window window = this.getWindow();
-        // clear FLAG_TRANSLUCENT_STATUS flag:
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        // finally change the color
-        window.setStatusBarColor(this.getResources()
-                .getColor(R.color.my_primary, this.getTheme()));
+        UiStyleSettings.setUiStyle(this);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this,
-                        LoginPhoneNumberActivity.class);
+                Intent intent;
+                if (FireBaseUtil.isLoggedIn()) {
+                    intent = new Intent(SplashActivity.this,
+                            MainActivity.class);
+                } else {
+                    intent = new Intent(SplashActivity.this,
+                            LoginPhoneNumberActivity.class);
+                }
                 startActivity(intent);
                 finish();
             }
-        }, 3000);
+        }, 1000);
 
     }
 }

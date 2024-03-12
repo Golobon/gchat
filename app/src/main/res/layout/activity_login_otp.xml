@@ -94,7 +94,7 @@
         android:layout_weight="5">
 
         <EditText
-            android:id="@+id/et_login_otp"
+            android:id="@+id/et_second_otp_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -113,7 +113,7 @@
         android:orientation="vertical"
         android:layout_weight="20">
         <Button
-            android:id="@+id/btn_login_next"
+            android:id="@+id/btn_second_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Далее"
@@ -123,7 +123,7 @@
             android:layout_marginEnd="10dp"
             />
         <ProgressBar
-            android:id="@+id/pb_login_next"
+            android:id="@+id/pb_second"
             android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -133,7 +133,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_resend_otp_text"
+        android:id="@+id/tv_second_resend_otp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

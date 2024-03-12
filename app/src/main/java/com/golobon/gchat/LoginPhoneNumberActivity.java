@@ -13,8 +13,8 @@ import com.hbb20.CountryCodePicker;
 
 public class LoginPhoneNumberActivity extends AppCompatActivity {
     CountryCodePicker countryCodePicker;
-    EditText phoneInput;
-    Button btnSendOtp;
+    EditText etPhoneNum;
+    Button btnTryGetOtp;
     ProgressBar progressBar;
 
     @Override
@@ -24,20 +24,20 @@ public class LoginPhoneNumberActivity extends AppCompatActivity {
 
         UiStyleSettings.setUiStyle(this);
 
-        countryCodePicker = findViewById(R.id.country_code_picker);
-        phoneInput = findViewById(R.id.et_mob_namber);
-        btnSendOtp = findViewById(R.id.btn_sent_otp);
-        progressBar = findViewById(R.id.pb_login_mob_number);
+        countryCodePicker = findViewById(R.id.first_country_code_picker);
+        etPhoneNum = findViewById(R.id.et_first_mob_num);
+        btnTryGetOtp = findViewById(R.id.btn_first_try_get_otp);
+        progressBar = findViewById(R.id.pb_first);
 
         progressBar.setVisibility(View.GONE);
 
-        countryCodePicker.registerCarrierNumberEditText(phoneInput);
+        countryCodePicker.registerCarrierNumberEditText(etPhoneNum);
 
-        btnSendOtp.setOnClickListener(new View.OnClickListener() {
+        btnTryGetOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!countryCodePicker.isValidFullNumber()) {
-                    phoneInput.setError("Phone number is not valid");
+                    etPhoneNum.setError("Phone number is not valid");
                     return;
                 }
                 Intent intent = new Intent(LoginPhoneNumberActivity.this,

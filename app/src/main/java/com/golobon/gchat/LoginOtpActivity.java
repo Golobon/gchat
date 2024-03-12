@@ -31,10 +31,10 @@ public class LoginOtpActivity extends AppCompatActivity {
     String veryficationCode;
     PhoneAuthProvider.ForceResendingToken resendingToken;
 
-    EditText etOtp;
+    EditText etSendingOtp;
     Button btnNext;
     ProgressBar progressBar;
-    TextView tvResendOtp;
+    TextView tvTryGetOtpOneMoreTime;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +43,22 @@ public class LoginOtpActivity extends AppCompatActivity {
 
         UiStyleSettings.setUiStyle(this);
 
-        etOtp = findViewById(R.id.et_login_otp);
-        btnNext = findViewById(R.id.btn_login_next);
-        progressBar = findViewById(R.id.pb_login_next);
-        tvResendOtp = findViewById(R.id.tv_resend_otp_text);
+        etSendingOtp = findViewById(R.id.et_second_otp_code);
+        btnNext = findViewById(R.id.btn_second_next);
+        progressBar = findViewById(R.id.pb_second);
+        tvTryGetOtpOneMoreTime = findViewById(R.id.tv_second_resend_otp);
 
         phoneNumber = getIntent().getExtras().getString("phone");
 
         btnNext.setOnClickListener(v -> {
-            String enteredOtp = etOtp.getText().toString();
+            String enteredOtp = etSendingOtp.getText().toString();
             PhoneAuthCredential credential =
                     PhoneAuthProvider.getCredential(veryficationCode, enteredOtp);
             signIn(credential);
             setInProgress(true);
         });
 
-        tvResendOtp.setOnClickListener(v -> sendOtp(phoneNumber, true));
+        tvTryGetOtpOneMoreTime.setOnClickListener(v -> sendOtp(phoneNumber, true));
 
         sendOtp(phoneNumber, false);
     }
@@ -131,13 +131,13 @@ public class LoginOtpActivity extends AppCompatActivity {
         }
     }
     void startResendTimer() {
-        tvResendOtp.setEnabled(false);
+        tvTryGetOtpOneMoreTime.setEnabled(false);
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 timeOutSeconds--;
-                tvResendOtp.setText("Повторно запросить код можно через: " +
+                tvTryGetOtpOneMoreTime.setText("Повторно запросить код можно через: " +
                         timeOutSeconds + " сек");
                 if (timeOutSeconds <= 0) {
                     timeOutSeconds = 30L;
@@ -145,8 +145,8 @@ public class LoginOtpActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            tvResendOtp.setEnabled(true);
-                            tvResendOtp.setText("Повторно запросить код (жмите сюда)");
+                            tvTryGetOtpOneMoreTime.setEnabled(true);
+                            tvTryGetOtpOneMoreTime.setText("Повторно запросить код (жмите сюда)");
                         }
                     });
                 }
