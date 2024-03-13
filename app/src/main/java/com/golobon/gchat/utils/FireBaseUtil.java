@@ -1,6 +1,7 @@
 package com.golobon.gchat.utils;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -21,5 +22,8 @@ public class FireBaseUtil {
         return FirebaseAuth
                 .getInstance()
                 .getUid();
+    }
+    public static CollectionReference allUserCollectionReference() {
+        return FirebaseFirestore.getInstance().collection("users");
     }
 }

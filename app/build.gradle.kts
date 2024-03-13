@@ -46,5 +46,6 @@ dependencies {
     //noinspection BomWithoutPlatform
     implementation("com.google.firebase:firebase-bom:32.7.4")
     implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
 
 }
