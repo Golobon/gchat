@@ -46,7 +46,7 @@ public class LoginUserNameActivity extends AppCompatActivity {
         setInProgress(true);
         String username = etUsernameInput.getText().toString();
         if (username.isEmpty() || username.length() < 3) {
-            etUsernameInput.setError("Имя слишком короткое");
+            etUsernameInput.setError("Имя слишком короткое!");
             return;
         }
         if (userModel != null) {
