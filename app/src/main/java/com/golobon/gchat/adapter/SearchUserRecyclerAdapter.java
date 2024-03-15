@@ -1,6 +1,7 @@
 package com.golobon.gchat.adapter;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.golobon.gchat.R;
 import com.golobon.gchat.model.UserModel;
+import com.golobon.gchat.utils.FireBaseUtil;
 
 public class SearchUserRecyclerAdapter
         extends FirestoreRecyclerAdapter <UserModel, SearchUserRecyclerAdapter.UserModelViewHolder> {
@@ -25,8 +28,13 @@ public class SearchUserRecyclerAdapter
     }
     @Override
     protected void onBindViewHolder(@NonNull UserModelViewHolder holder, int position, @NonNull UserModel model) {
-        holder.tvUserName.setText(model.getUsername());
+        if (model.getUserId().equals(FireBaseUtil.currentUserId())) {
+            holder.tvUserName.setText(model.getUsername() + " (я)");
+        } else {
+            holder.tvUserName.setText(model.getUsername());
+        }
         holder.tvUserPhone.setText(model.getPhone());
+
 
     }
     @NonNull
