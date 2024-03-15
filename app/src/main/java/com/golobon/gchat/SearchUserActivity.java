@@ -17,6 +17,10 @@ import com.golobon.gchat.model.UserModel;
 import com.golobon.gchat.utils.FireBaseUtil;
 import com.google.firebase.firestore.Query;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class SearchUserActivity extends AppCompatActivity {
     EditText etSearchUserInput;
     ImageButton btnSearchUser;
@@ -52,6 +56,7 @@ public class SearchUserActivity extends AppCompatActivity {
     }
      void setupSearchRecyclerView(String searchUserInfo) {
         Query query = FireBaseUtil.allUserCollectionReference()
+                //whereEqualTo("username", searchUserInfo);
                 .whereGreaterThanOrEqualTo("username", searchUserInfo);
 
         FirestoreRecyclerOptions<UserModel> options =
