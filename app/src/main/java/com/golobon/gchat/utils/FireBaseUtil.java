@@ -7,9 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FireBaseUtil {
      public static DocumentReference currentUserDetails() {
-         return FirebaseFirestore
-                 .getInstance()
-                 .collection("users")
+         return allUserCollectionReference()
                  .document(currentUserId());
      }
      public static boolean isLoggedIn () {
