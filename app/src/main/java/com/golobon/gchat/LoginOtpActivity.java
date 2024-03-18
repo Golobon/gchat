@@ -137,7 +137,7 @@ public class LoginOtpActivity extends AppCompatActivity {
             @Override
             public void run() {
                 timeOutSeconds--;
-                tvTryGetOtpOneMoreTime.setText("Повторно запросить код можно через: " +
+                tvTryGetOtpOneMoreTime.setText("Повторно запросить код можно через " +
                         timeOutSeconds + " сек");
                 if (timeOutSeconds <= 0) {
                     timeOutSeconds = 30L;
