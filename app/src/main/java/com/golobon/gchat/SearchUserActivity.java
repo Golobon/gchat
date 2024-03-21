@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -64,7 +66,7 @@ public class SearchUserActivity extends AppCompatActivity {
                         .setQuery(query, UserModel.class).build();
 
         adapter = new SearchUserRecyclerAdapter(options, getApplicationContext());
-        rvFoundUsers.setLayoutManager(new LinearLayoutManager(this));
+        rvFoundUsers.setLayoutManager(new WrapContentLinearLayoutManager(this));
         rvFoundUsers.setAdapter(adapter);
         adapter.startListening();
     }
@@ -87,6 +89,19 @@ public class SearchUserActivity extends AppCompatActivity {
         super.onResume();
         if (adapter != null) {
             adapter.startListening();
+        }
+    }
+    static class WrapContentLinearLayoutManager extends LinearLayoutManager {
+        public WrapContentLinearLayoutManager(Context context) {
+            super(context);
+        }
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                Log.e("TAG", "meet a IOOBE in RecyclerView");
+            }
         }
     }
 }

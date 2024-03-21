@@ -1,6 +1,7 @@
 package com.golobon.gchat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.golobon.gchat.ChatActivity;
 import com.golobon.gchat.R;
 import com.golobon.gchat.model.UserModel;
 import com.golobon.gchat.utils.AndroidUtil;
@@ -37,7 +39,10 @@ public class SearchUserRecyclerAdapter
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AndroidUtil.showToast(v.getContext(), "Boo");
+                Intent intent = new Intent(context, ChatActivity.class);
+                AndroidUtil.passUserModelAsIntent(intent, model);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
 

@@ -5,28 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchUserActivity"
-    android:background="@color/off_white">
+    tools:context=".ChatActivity">
 
     <RelativeLayout
-        android:id="@+id/rl_search_uer_tool_bar"
+        android:id="@+id/rl_chat_uer_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/my_primary"
         android:padding="10dp">
         <TextView
+            android:id="@+id/tv_chat_other_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Поиск участников чата"
+            android:text="Имя пользователя"
             android:textSize="18sp"
-            android:textStyle="bold|italic"
+            android:textStyle="bold"
             android:fontFamily="sans-serif"
             android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/btn_search_back"/>
+            android:layout_toEndOf="@id/layout_chat_picture_view"/>
+
+        <include
+            android:id="@+id/layout_chat_picture_view"
+            layout="@layout/profile_picture_view"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/btn_chat_back"/>
         <ImageButton
-            android:id="@+id/btn_search_back"
+            android:id="@+id/btn_chat_back"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_back"
@@ -36,46 +44,49 @@
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_search_user_name_form"
-        android:layout_below="@id/rl_search_uer_tool_bar"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_chat_uer_name"
+        android:layout_above="@id/rl_chat_bottom_layout"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:padding="8dp"
+        android:id="@+id/rl_chat_bottom_layout">
 
         <EditText
-            android:id="@+id/et_search_username_input"
+            android:id="@+id/et_chat_message_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_toLeftOf="@id/btn_search_user"
+            android:layout_toLeftOf="@id/btn_chat_send_message"
             android:background="@drawable/edit_text_rounded_corner"
             android:elevation="4dp"
-            android:hint="Введите имя"
-            android:textColorHint="@color/light_grey_color"
-            android:padding="10dp" />
+            android:hint="Напишите сообщение"
+            android:padding="10dp"
+            android:textColorHint="@color/light_grey_color" />
+
         <ImageButton
-            android:id="@+id/btn_search_user"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_search_person"
+            android:id="@+id/btn_chat_send_message"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_send_message"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:padding="4dp"
-            android:layout_margin="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="fitXY"
-            app:tint="@color/my_primary" />
+            app:tint="@color/my_primary"
+            android:padding="8dp"
+            android:layout_marginStart="10dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"/>
 
     </RelativeLayout>
-    
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_search_user"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_search_user_name_form"
-        android:padding="10dp"/>
 
 </RelativeLayout>
