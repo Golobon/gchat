@@ -35,4 +35,8 @@ public class FireBaseUtil {
             return userId1 + "_" + userId2;
         } else return userId2 + "_" + userId1;
     }
+
+    public static CollectionReference getChatroomMessageReference(String chatroomId) {
+            return getChatroomReference(chatroomId).collection("chats");
+    }
 }
