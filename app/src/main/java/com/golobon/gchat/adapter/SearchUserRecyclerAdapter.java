@@ -45,8 +45,6 @@ public class SearchUserRecyclerAdapter
                 context.startActivity(intent);
             }
         });
-
-
     }
     @NonNull
     @Override
