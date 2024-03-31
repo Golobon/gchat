@@ -1,17 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatFragment">
+    tools:context=".ProfileFragment"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="20dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_profile_pic"
+        android:layout_width="160dp"
+        android:layout_height="168dp"
+        android:background="@drawable/circular_bg"
+        android:backgroundTint="@color/my_primary"
+        android:src="@drawable/ic_person"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="40dp">
+
+    </androidx.appcompat.widget.AppCompatImageView>
+    <EditText
+        android:id="@+id/et_profile_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="Имя"
+        android:textColorHint="@color/grey_color"
+        android:inputType="text"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_rounded_corner"
+        android:elevation="5dp"/>
+    <EditText
+        android:id="@+id/et_profile_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="Номер телефона"
+        android:textColorHint="@color/grey_color"
+        android:inputType="text"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_rounded_corner"
+        android:elevation="5dp"
+        android:enabled="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/btn_profile_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Обновить данные"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_rounded_corner"
+            />
+        <ProgressBar
+            android:layout_marginTop="5dp"
+            android:id="@+id/pb_profile"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/my_primary"/>
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_btn_profile_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Профиль"
-        android:textStyle="italic"
-        android:textSize="22sp" />
+        android:text="logout"
+        android:textColor="@color/light_grey_color"/>
 
-</RelativeLayout>
+</LinearLayout>

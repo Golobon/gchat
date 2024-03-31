@@ -42,7 +42,7 @@ public class LoginUserNameActivity extends AppCompatActivity {
         btnLetIn.setOnClickListener(v -> setUsername());
     }
 
-    void setUsername () {
+    void setUsername() {
         setInProgress(true);
         String username = etUsernameInput.getText().toString();
         if (username.isEmpty() || username.length() < 3) {
