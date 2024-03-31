@@ -51,7 +51,7 @@ public class SearchUserRecyclerAdapter
     @NonNull
     @Override
     public UserModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.search_user_recycler_raw, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.search_user_recycler_row, parent, false);
         return new UserModelViewHolder(view);
     }
     class UserModelViewHolder extends RecyclerView.ViewHolder {
