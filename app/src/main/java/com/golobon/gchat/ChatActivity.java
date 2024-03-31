@@ -2,6 +2,7 @@ package com.golobon.gchat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.golobon.gchat.adapter.ChatRecyclerAdapter;
+import com.golobon.gchat.adapter.SearchUserRecyclerAdapter;
 import com.golobon.gchat.model.ChatMessageModel;
 import com.golobon.gchat.model.ChatroomModel;
 import com.golobon.gchat.model.UserModel;
@@ -21,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 
 import java.util.Arrays;
 
@@ -28,6 +33,8 @@ public class ChatActivity extends AppCompatActivity {
     UserModel otherUser;
     String chatroomId;
     ChatroomModel chatroomModel;
+    ChatRecyclerAdapter adapter;
+
     EditText etMessageInput;
     ImageButton btnSendMessage;
     ImageButton btnBack;
@@ -58,6 +65,32 @@ public class ChatActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> onBackPressed());
 
         getOrCreateChatroomModel();
+
+        setupChatRecyclerView();
+    }
+
+    private void setupChatRecyclerView() {
+        Query query = FireBaseUtil.getChatroomMessageReference(chatroomId)
+                .orderBy("timestamp", Query.Direction.DESCENDING);
+
+        FirestoreRecyclerOptions<ChatMessageModel> options =
+                new FirestoreRecyclerOptions.Builder<ChatMessageModel>()
+                        .setQuery(query, ChatMessageModel.class).build();
+
+        adapter = new ChatRecyclerAdapter(options, getApplicationContext());
+        LinearLayoutManager manager =  new LinearLayoutManager(this);
+        manager.setReverseLayout(true);
+
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                recyclerView.smoothScrollToPosition(0);
+            }
+        });
     }
 
     private void sendMessageToUser(String message) {

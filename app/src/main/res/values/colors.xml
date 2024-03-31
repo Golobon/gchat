@@ -10,4 +10,8 @@
     <color name="light_grey_color">#B6B6B6</color>
     <color name="grey_color">#8A8A8A</color>
     <color name="light_blue">#4994BD</color>
+
+    <color name="chat_color_sender">#595959</color>
+    <color name="chat_color_receiver">#006C62</color>
+
 </resources>
