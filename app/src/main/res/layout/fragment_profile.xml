@@ -75,7 +75,7 @@
         android:id="@+id/tv_btn_profile_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="logout"
+        android:text="выйти из аккаунта"
         android:textColor="@color/light_grey_color"/>
 
 </LinearLayout>

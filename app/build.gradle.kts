@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.golobon.gchat"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -47,5 +47,6 @@ dependencies {
     implementation("com.google.firebase:firebase-bom:32.7.4")
     implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
+
 
 }
