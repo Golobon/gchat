@@ -66,7 +66,7 @@ public class SearchUserActivity extends AppCompatActivity {
                         .setQuery(query, UserModel.class).build();
 
         adapter = new SearchUserRecyclerAdapter(options, getApplicationContext());
-        rvFoundUsers.setLayoutManager(new WrapContentLinearLayoutManager(this));
+        rvFoundUsers.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rvFoundUsers.setAdapter(adapter);
         adapter.startListening();
     }
@@ -88,7 +88,7 @@ public class SearchUserActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (adapter != null) {
-            adapter.startListening();
+            adapter.notifyDataSetChanged();
         }
     }
     static class WrapContentLinearLayoutManager extends LinearLayoutManager {

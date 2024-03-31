@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -44,6 +45,8 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        UiStyleSettings.setUiStyle(this);
 
         otherUser = AndroidUtil.getUserModelFromIntent(getIntent());
         chatroomId = FireBaseUtil.getChatroomId(FireBaseUtil.currentUserId(),

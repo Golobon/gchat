@@ -45,7 +45,7 @@ public class ChatFragment extends Fragment {
                         .setQuery(query, ChatroomModel.class).build();
 
         adapter = new ListChatRecyclerAdapter(options, getContext());
-        rvChatList.setLayoutManager(new WrapContentLinearLayoutManager(getContext()));
+        rvChatList.setLayoutManager(new LinearLayoutManager(getContext()));
         rvChatList.setAdapter(adapter);
         adapter.startListening();
     }
@@ -67,7 +67,7 @@ public class ChatFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (adapter != null) {
-            adapter.startListening();
+            adapter.notifyDataSetChanged();
         }
     }
     static class WrapContentLinearLayoutManager extends LinearLayoutManager {
