@@ -2,6 +2,7 @@ package com.golobon.gchat.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.golobon.gchat.R;
 import com.golobon.gchat.model.UserModel;
 import com.golobon.gchat.utils.AndroidUtil;
 import com.golobon.gchat.utils.FireBaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class SearchUserRecyclerAdapter
         extends FirestoreRecyclerAdapter <UserModel, SearchUserRecyclerAdapter.UserModelViewHolder> {
@@ -35,6 +38,19 @@ public class SearchUserRecyclerAdapter
             holder.tvUserName.setText(model.getUsername());
         }
         holder.tvUserPhone.setText(model.getPhone());
+
+        FireBaseUtil.getOtgerProfilePicStorageReference(model.getUserId())
+                .getDownloadUrl()
+                .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri uriProfilePic = task.getResult();
+                            AndroidUtil.setProfilePic(context,
+                                    uriProfilePic, holder.ivUserProfilePic);
+                        }
+                    }
+                });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,12 +71,12 @@ public class SearchUserRecyclerAdapter
     class UserModelViewHolder extends RecyclerView.ViewHolder {
         TextView tvUserName;
         TextView tvUserPhone;
-        ImageView ivUserPhoto;
+        ImageView ivUserProfilePic;
         public UserModelViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUserName = itemView.findViewById(R.id.tv_username_text);
             tvUserPhone = itemView.findViewById(R.id.tv_user_phone);
-            ivUserPhoto = itemView.findViewById(R.id.iv_user_profile_pic);
+            ivUserProfilePic = itemView.findViewById(R.id.iv_user_profile_pic);
         }
     }
 }

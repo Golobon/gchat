@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +42,7 @@ public class ChatActivity extends AppCompatActivity {
     ImageButton btnBack;
     TextView tvOtherUsername;
     RecyclerView recyclerView;
+    ImageView ivUserProfilePic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,20 @@ public class ChatActivity extends AppCompatActivity {
         tvOtherUsername = findViewById(R.id.tv_chat_other_username);
         tvOtherUsername.setText(otherUser.getUsername());
         recyclerView = findViewById(R.id.rv_chat_messages);
+        ivUserProfilePic = findViewById(R.id.iv_user_profile_pic);
 
+        FireBaseUtil.getOtgerProfilePicStorageReference(otherUser.getUserId())
+                .getDownloadUrl()
+                .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri uriProfilePic = task.getResult();
+                            AndroidUtil.setProfilePic(ChatActivity.this,
+                                    uriProfilePic, ivUserProfilePic);
+                        }
+                    }
+                });
 
         btnSendMessage.setOnClickListener(v -> {
             String message = etMessageInput.getText().toString().trim();
