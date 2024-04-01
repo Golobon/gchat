@@ -11,12 +11,12 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_profile_pic"
-        android:layout_width="160dp"
+        android:layout_width="168dp"
         android:layout_height="168dp"
         android:background="@drawable/circular_bg"
         android:backgroundTint="@color/my_primary"
         android:src="@drawable/ic_person"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:layout_marginBottom="40dp">
 
     </androidx.appcompat.widget.AppCompatImageView>
