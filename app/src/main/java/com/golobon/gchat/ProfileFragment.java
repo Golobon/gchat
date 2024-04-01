@@ -27,6 +27,7 @@ import com.golobon.gchat.utils.FireBaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.UploadTask;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -40,7 +41,6 @@ public class ProfileFragment extends Fragment {
     UserModel currentUserModel;
     ActivityResultLauncher<Intent> imagePickLauncher;
     Uri selectedImageUri;
-    Fragment fragment = this;
 
     public ProfileFragment() {
     }
@@ -112,14 +112,26 @@ public class ProfileFragment extends Fragment {
     }
 
     void updateBtnClick() {
-        String newUserName =  etUserName.getText().toString();
+        String newUserName = etUserName.getText().toString();
         if (newUserName.isEmpty() || newUserName.length() < 3) {
             etUserName.setError("Имя слишком короткое!");
             return;
         }
         currentUserModel.setUsername(newUserName);
         setInProgress(true);
-        updateToFireStore();
+
+        if (selectedImageUri != null) {
+            FireBaseUtil.getCurrentProfilePicStorageReference()
+                    .putFile(selectedImageUri)
+                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            updateToFireStore();
+                        }
+                    });
+        } else {
+            updateToFireStore();
+        }
     }
 
     void updateToFireStore() {
@@ -129,9 +141,9 @@ public class ProfileFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         setInProgress(false);
                         if (task.isSuccessful()) {
-                            AndroidUtil.showToast(getContext(),"Обновление успешно");
+                            AndroidUtil.showToast(getContext(), "Обновление успешно");
                         } else {
-                            AndroidUtil.showToast(getContext(),"Обновление не прошло");
+                            AndroidUtil.showToast(getContext(), "Обновление не прошло");
                         }
                     }
                 });
@@ -139,6 +151,20 @@ public class ProfileFragment extends Fragment {
 
     void getUserData() {
         setInProgress(true);
+
+        FireBaseUtil.getCurrentProfilePicStorageReference()
+                .getDownloadUrl()
+                .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri uriProfilePic = task.getResult();
+                            AndroidUtil.setProfilePic(getContext(),
+                                    uriProfilePic, ivProfilePic);
+                        }
+                    }
+                });
+
         FireBaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -149,6 +175,7 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
     void setInProgress(boolean inProgress) {
         if (inProgress) {
             progressBar.setVisibility(View.VISIBLE);

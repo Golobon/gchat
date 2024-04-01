@@ -6,15 +6,14 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_user_photo"
+        android:id="@+id/iv_user_profile_pic"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_centerInParent="true"
         android:background="@drawable/circular_bg"
         android:backgroundTint="@color/off_white"
         android:padding="4dp"
-        app:srcCompat="@drawable/ic_person"
-        app:tint="@color/light_grey_color" />
+        app:srcCompat="@drawable/ic_person" />
 
 
 </RelativeLayout>

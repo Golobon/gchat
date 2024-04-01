@@ -2,7 +2,7 @@ package com.golobon.gchat.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +41,20 @@ public class ListChatRecyclerAdapter
                         if (task.isSuccessful()) {
                             boolean isMessSendByMe = model.getLastMessageSenderId().equals(FireBaseUtil.currentUserId());
                             UserModel otherUserModel = task.getResult().toObject(UserModel.class);
+
+                            FireBaseUtil.getOtgerProfilePicStorageReference(otherUserModel.getUserId())
+                                    .getDownloadUrl()
+                                    .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Uri> t) {
+                                            if (t.isSuccessful()) {
+                                                Uri uriProfilePic = t.getResult();
+                                                AndroidUtil.setProfilePic(context,
+                                                        uriProfilePic, holder.ivUserProfilePic);
+                                            }
+                                        }
+                                    });
+
                             holder.tvUserName.setText(otherUserModel.getUsername());
                             holder.tvLastMessTime.setText(FireBaseUtil.timestampToString(model.getLastMessageTimestamp()));
 
@@ -70,13 +84,13 @@ public class ListChatRecyclerAdapter
         TextView tvUserName;
         TextView tvLastMessText;
         TextView tvLastMessTime;
-        ImageView ivUserPhoto;
+        ImageView ivUserProfilePic;
         public ChatroomModelViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUserName = itemView.findViewById(R.id.tv_chat_list_username_text);
             tvLastMessText = itemView.findViewById(R.id.tv_chat_list_last_mess_text);
             tvLastMessTime = itemView.findViewById(R.id.tv_chat_list_last_mess_time_text);
-            ivUserPhoto = itemView.findViewById(R.id.iv_user_photo);
+            ivUserProfilePic = itemView.findViewById(R.id.iv_user_profile_pic);
         }
     }
 }

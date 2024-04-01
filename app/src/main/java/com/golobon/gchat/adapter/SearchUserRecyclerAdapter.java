@@ -60,7 +60,7 @@ public class SearchUserRecyclerAdapter
             super(itemView);
             tvUserName = itemView.findViewById(R.id.tv_username_text);
             tvUserPhone = itemView.findViewById(R.id.tv_user_phone);
-            ivUserPhoto = itemView.findViewById(R.id.iv_user_photo);
+            ivUserPhoto = itemView.findViewById(R.id.iv_user_profile_pic);
         }
     }
 }
