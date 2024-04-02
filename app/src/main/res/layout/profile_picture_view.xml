@@ -11,7 +11,6 @@
         android:layout_height="52dp"
         android:layout_centerInParent="true"
         android:background="@drawable/circular_bg"
-        android:backgroundTint="@color/off_white"
         android:padding="4dp"
         app:srcCompat="@drawable/ic_person" />
 
