@@ -19,12 +19,14 @@ public class AndroidUtil {
         intent.putExtra("username", userModel.getUsername());
         intent.putExtra("userPhone", userModel.getPhone());
         intent.putExtra("userId", userModel.getUserId());
+        intent.putExtra("fcmToken", userModel.getfCMToken());
     }
     public static UserModel getUserModelFromIntent(Intent intent) {
         UserModel otherUser = new UserModel();
         otherUser.setUsername(intent.getStringExtra("username"));
         otherUser.setPhone(intent.getStringExtra("userPhone"));
         otherUser.setUserId(intent.getStringExtra("userId"));
+        otherUser.setfCMToken(intent.getStringExtra("fcmToken"));
         return otherUser;
     }
     public static void setProfilePic (Context context, Uri imageUri,
