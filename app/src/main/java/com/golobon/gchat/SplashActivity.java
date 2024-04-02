@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -25,33 +26,32 @@ public class SplashActivity extends AppCompatActivity {
 
         UiStyleSettings.setUiStyle(this);
 
-        if (getIntent().getExtras() != null) {
-            //From notification
+        String userId;
 
-            String userId = getIntent().getExtras().getString("userId");
+        if (getIntent().getExtras() != null &&
+                (userId = getIntent().getExtras().getString("userId")) != null) {
 
-            FireBaseUtil.allUserCollectionReference()
-                    .document(userId)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (FireBaseUtil.isLoggedIn() && task.isSuccessful()) {
-                                UserModel model = task.getResult().toObject(UserModel.class);
+                FireBaseUtil.allUserCollectionReference()
+                        .document(userId)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (FireBaseUtil.isLoggedIn() && task.isSuccessful()) {
+                                    UserModel model = task.getResult().toObject(UserModel.class);
 
-                                Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-                                mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                startActivity(mainIntent);
+                                    Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+                                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(mainIntent);
 
-                                Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
-                                AndroidUtil.passUserModelAsIntent(intent, model);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();
+                                    Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
+                                    AndroidUtil.passUserModelAsIntent(intent, model);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             }
-                        }
-                    });
-
+                        });
         } else {
             new Handler().postDelayed(new Runnable() {
                 @Override
