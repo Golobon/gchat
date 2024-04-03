@@ -52,11 +52,11 @@ public class UserModel {
         this.createdTimeStamp = createdTimeStamp;
     }
 
-    public String getfCMToken() {
+    public String getfcmToken() {
         return fcmToken;
     }
 
-    public void setfCMToken(String fCMToken) {
-        this.fcmToken = fCMToken;
+    public void setfcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 }

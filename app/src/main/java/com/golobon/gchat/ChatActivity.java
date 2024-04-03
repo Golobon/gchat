@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.golobon.gchat.adapter.ChatRecyclerAdapter;
-import com.golobon.gchat.adapter.SearchUserRecyclerAdapter;
 import com.golobon.gchat.model.ChatMessageModel;
 import com.golobon.gchat.model.ChatroomModel;
 import com.golobon.gchat.model.UserModel;
@@ -182,7 +179,7 @@ public class ChatActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("notification", notificationObject);
                         jsonObject.put("data", dataObject);
-                        jsonObject.put("to", otherUser.getfCMToken());
+                        jsonObject.put("to", otherUser.getfcmToken());
 
                         callApi(jsonObject);
 
