@@ -70,7 +70,7 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rv_chat_messages);
         ivUserProfilePic = findViewById(R.id.iv_user_profile_pic);
 
-        FireBaseUtil.getOtgerProfilePicStorageReference(otherUser.getUserId())
+        FireBaseUtil.getOtherProfilePicStorageReference(otherUser.getUserId())
                 .getDownloadUrl()
                 .addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
@@ -86,7 +86,7 @@ public class ChatActivity extends AppCompatActivity {
         btnSendMessage.setOnClickListener(v -> {
             String message = etMessageInput.getText().toString().trim();
             if (message.isEmpty()) return;
-            else sendMessageToUser(message);
+            sendMessageToUser(message);
         });
         btnBack.setOnClickListener(v -> onBackPressed());
 

@@ -42,7 +42,7 @@ public class ListChatRecyclerAdapter
                             boolean isMessSendByMe = model.getLastMessageSenderId().equals(FireBaseUtil.currentUserId());
                             UserModel otherUserModel = task.getResult().toObject(UserModel.class);
 
-                            FireBaseUtil.getOtgerProfilePicStorageReference(otherUserModel.getUserId())
+                            FireBaseUtil.getOtherProfilePicStorageReference(otherUserModel.getUserId())
                                     .getDownloadUrl()
                                     .addOnCompleteListener(new OnCompleteListener<Uri>() {
                                         @Override

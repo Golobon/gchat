@@ -39,7 +39,7 @@ public class SearchUserRecyclerAdapter
         }
         holder.tvUserPhone.setText(model.getPhone());
 
-        FireBaseUtil.getOtgerProfilePicStorageReference(model.getUserId())
+        FireBaseUtil.getOtherProfilePicStorageReference(model.getUserId())
                 .getDownloadUrl()
                 .addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
